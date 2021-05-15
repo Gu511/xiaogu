@@ -1,0 +1,52 @@
+<!-- 输入s选择Vue Base即可生成框架 -->
+<template>
+	<div id="main">
+		<Header title="喵喵影城"></Header>
+		<div id="content">
+			<div class="cinema_menu">
+				<div class="city_switch">
+					全城
+					<i class="iconfont icon-lower-triangle"></i>
+				</div>
+				<div class="brand_swtich">
+					品牌
+					<i class="iconfont icon-lower-triangle"></i>
+				</div>
+				<div class="feature_switch">
+					特色
+					<i class="iconfont icon-lower-triangle"></i>
+				</div>
+			</div>
+			<CinemaList></CinemaList>
+		</div>
+		<TabBar></TabBar>
+	</div>
+</template>
+
+<script>
+/* 引入TabBar底部导航组件和Header头部组件 */
+import Header from '@/components/Header';
+import TabBar from '@/components/TabBar';
+/* 导入CinemaList影院列表组件 */
+import CinemaList from '@/components/CinemaList';
+export default {
+	name: 'Cinema',
+	components: {
+		Header,
+		TabBar,
+		CinemaList
+	}
+};
+</script>
+
+<style scoped>
+#content .cinema_menu {
+	width: 100%;
+	height: 45px;
+	border-bottom: 1px solid #e6e6e6;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	background: white;
+}
+</style>
