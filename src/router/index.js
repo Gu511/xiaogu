@@ -1,22 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import movieRouter from './movie' /* 引入movie页面 */
+import mineRouter from './mine' /* 引入mine页面 */
+import cinemaRouter from './cinema' /* 引入cinema页面 */
 
 Vue.use(VueRouter)
 
 const routes = [
+  movieRouter,
+  mineRouter,
+  cinemaRouter,
   {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+	  /* 重定向路由，默认指向movie页面 */
+	  path:'/*',
+	  redirect: '/movie'
   }
 ]
 
