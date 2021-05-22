@@ -1,109 +1,17 @@
 <template>
 	<div class="movie_body">
 		<ul>
-			<li>
-				<div class="pic_show"><img src="/images/movie_1.jpg" /></div>
+			<li v-for="data in comingList" :key="data.filmId">
+				<div class="pic_show"><img :src="data.poster" /></div>
 				<div class="info_list">
-					<h2>无名之辈</h2>
-					<p>
-						<span class="person">17746</span>
-						人想看
-					</p>
-					<p>主演: 陈建斌,任素汐,潘斌龙</p>
-					<p>2018-11-30上映</p>
+					<h2>
+						{{data.name}}
+						<span>{{data.item.name}}</span>
+					</h2>
+					<p>主演: {{data.actors | actorFilter}}</p>
+					<p>{{showTime(data.premiereAt * 1000)}} &nbsp;上映</p>
 				</div>
-				<div class="btn_pre">预售</div>
-			</li>
-			<li>
-				<div class="pic_show"><img src="/images/movie_2.jpg" /></div>
-				<div class="info_list">
-					<h2>毒液：致命守护者</h2>
-					<p>
-						<span class="person">2346</span>
-						人想看
-					</p>
-					<p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-					<p>2018-11-30上映</p>
-				</div>
-				<div class="btn_pre">预售</div>
-			</li>
-			<li>
-				<div class="pic_show"><img src="/images/movie_1.jpg" /></div>
-				<div class="info_list">
-					<h2>无名之辈</h2>
-					<p>
-						<span class="person">17746</span>
-						人想看
-					</p>
-					<p>主演: 陈建斌,任素汐,潘斌龙</p>
-					<p>2018-11-30上映</p>
-				</div>
-				<div class="btn_pre">预售</div>
-			</li>
-			<li>
-				<div class="pic_show"><img src="/images/movie_2.jpg" /></div>
-				<div class="info_list">
-					<h2>毒液：致命守护者</h2>
-					<p>
-						<span class="person">2346</span>
-						人想看
-					</p>
-					<p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-					<p>2018-11-30上映</p>
-				</div>
-				<div class="btn_pre">预售</div>
-			</li>
-			<li>
-				<div class="pic_show"><img src="/images/movie_1.jpg" /></div>
-				<div class="info_list">
-					<h2>无名之辈</h2>
-					<p>
-						<span class="person">17746</span>
-						人想看
-					</p>
-					<p>主演: 陈建斌,任素汐,潘斌龙</p>
-					<p>2018-11-30上映</p>
-				</div>
-				<div class="btn_pre">预售</div>
-			</li>
-			<li>
-				<div class="pic_show"><img src="/images/movie_2.jpg" /></div>
-				<div class="info_list">
-					<h2>毒液：致命守护者</h2>
-					<p>
-						<span class="person">2346</span>
-						人想看
-					</p>
-					<p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-					<p>2018-11-30上映</p>
-				</div>
-				<div class="btn_pre">预售</div>
-			</li>
-			<li>
-				<div class="pic_show"><img src="/images/movie_1.jpg" /></div>
-				<div class="info_list">
-					<h2>无名之辈</h2>
-					<p>
-						<span class="person">17746</span>
-						人想看
-					</p>
-					<p>主演: 陈建斌,任素汐,潘斌龙</p>
-					<p>2018-11-30上映</p>
-				</div>
-				<div class="btn_pre">预售</div>
-			</li>
-			<li>
-				<div class="pic_show"><img src="/images/movie_2.jpg" /></div>
-				<div class="info_list">
-					<h2>毒液：致命守护者</h2>
-					<p>
-						<span class="person">2346</span>
-						人想看
-					</p>
-					<p>主演: 汤姆·哈迪,米歇尔·威廉姆斯,里兹·阿迈德</p>
-					<p>2018-11-30上映</p>
-				</div>
-				<div class="btn_pre">预售</div>
+				<div class="btn_pre">预购</div>
 			</li>
 		</ul>
 	</div>
@@ -111,7 +19,51 @@
 
 <script>
 export default {
-	name: 'CommingSoon'
+	name: 'CommingSoon',
+	data() {
+		return{
+			comingList: [],
+		}
+	},
+	mounted() {
+		this.axios({
+			url: 'https://m.maizuo.com/gateway?cityId=310100&pageNum=1&pageSize=10&type=2&k=2125898',
+			headers: {
+				'X-Client-Info': '{"a":"3000","ch":"1002","v":"5.0.4","e":"16198541364526891235016705","bc":"310100"}',
+				'X-Host': 'mall.film-ticket.film.list'
+			}
+		}).then(res => {
+			var msg = res.data.msg;
+			console.log(res.data);
+			if (msg == 'ok') {
+				this.comingList = res.data.data.films;
+			}
+		});
+	},
+	methods:{
+		numOfChinese(num) {
+			var arr = ['日', '一', '二', '三', '四', '五', '六'];
+			return arr[num];
+		},
+		doubleNum(n) {
+			if (n < 10) {
+				return '0' + n;
+			} else {
+				return n;
+			}
+		},
+		showTime(time) {
+			var d = new Date(time);
+			var year = d.getFullYear();
+			var month = d.getMonth() + 1; //0~11
+			var date = d.getDate();
+		
+			var week = d.getDay(); // 0是周日
+			week = this.$options.methods.numOfChinese(week);
+			var str = year + '年' + month + '月' + date + '日 星期' + week;
+			return str;
+		}
+	}
 };
 </script>
 
@@ -151,6 +103,17 @@ export default {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+
+.movie_body .info_list h2 span {
+	font-size: 9px;
+	color: #fff;
+	background-color: #d2d6dc;
+	height: 14px;
+	line-height: 14px;
+	padding: 0 2px;
+	border-radius: 2px;
+}
+
 .movie_body .info_list p {
 	font-size: 13px;
 	color: #666;
