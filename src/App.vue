@@ -5,7 +5,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-const fullName = ref('张三')
+const fullName = ref('世界')
 </script>
 <style scoped>
 
