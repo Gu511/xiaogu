@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>{{ msg }}</h1>
+    <h1>你好-{{ msg }}</h1>
   </div>
 </template>
 <script setup>
 import { ref } from 'vue'
-const msg = ref('Hello Vue!')
+const fullName = ref('张三')
 </script>
 <style scoped>
 
