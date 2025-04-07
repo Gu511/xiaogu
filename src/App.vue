@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>你好-{{ msg }}</h1>
+    <h1>你好-{{ fullName }}</h1>
   </div>
 </template>
 <script setup>
